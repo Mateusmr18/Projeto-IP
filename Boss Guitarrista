@@ -1,0 +1,259 @@
+import pygame
+import random
+import math
+
+# Inicialização do Pygame
+pygame.init()
+
+# Configurações da tela
+LARGURA = 1500
+ALTURA = 800
+tela = pygame.display.set_mode((LARGURA, ALTURA))
+pygame.display.set_caption("The Last Song")
+
+# Cores
+BRANCO = (255, 255, 255)
+PRETO = (0, 0, 0)
+VERMELHO = (255, 0, 0)
+AZUL = (0, 0, 255)
+VERDE = (0, 255, 0)
+CINZA = (100, 100, 100)
+MARROM = (139, 69, 19)
+
+
+# Classe do Jogador
+class Jogador(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.Surface((50, 50))
+        self.image.fill(AZUL)
+        self.rect = self.image.get_rect()
+        self.rect.centerx = LARGURA // 2
+        self.rect.bottom = ALTURA - 10
+        self.velocidade = 4
+        self.pode_atirar = True
+        self.contador_tiro = 0
+        self.tem_guitarra = False
+        self.tiros_guitarra = 0
+
+    def update(self):
+        # Movimento do jogador
+        teclas = pygame.key.get_pressed()
+        if teclas[pygame.K_LEFT] and self.rect.left > 0:
+            self.rect.x -= self.velocidade
+        if teclas[pygame.K_RIGHT] and self.rect.right < LARGURA:
+            self.rect.x += self.velocidade
+
+        # Lógica de tiro do jogador
+        if self.tem_guitarra and self.tiros_guitarra > 0:
+            # Atira automaticamente 5 notas
+            projetil = NotaMusical(self.rect.centerx, self.rect.top, direcao_cima=True)
+            todas_sprites.add(projetil)
+            notas_jogador.add(projetil)
+
+            self.tiros_guitarra -= 1
+
+            # Se acabarem os tiros, perde a guitarra
+            if self.tiros_guitarra == 0:
+                self.tem_guitarra = False
+                self.image.fill(AZUL)  # Volta à cor original
+
+        # Lógica de tiro manual (sem guitarra)
+        elif not self.tem_guitarra:
+            if teclas[pygame.K_SPACE] and self.pode_atirar:
+                projetil = ProjetilJogador(self.rect.centerx, self.rect.top)
+                todas_sprites.add(projetil)
+                projeteis_jogador.add(projetil)
+                self.pode_atirar = False
+                self.contador_tiro = 0
+
+            # Cooldown do tiro
+            if not self.pode_atirar:
+                self.contador_tiro += 1
+                if self.contador_tiro >= 30:  # Cooldown de 30 frames
+                    self.pode_atirar = True
+
+    def pegar_guitarra(self):
+        self.tem_guitarra = True
+        self.tiros_guitarra = 5  # 5 tiros com a guitarra
+        self.image.fill(MARROM)  # Muda a cor para marrom quando pega a guitarra
+
+
+# Classe da Guitarra
+class Guitarra(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.Surface((40, 20))
+        self.image.fill(MARROM)
+        self.rect = self.image.get_rect()
+        self.rect.centerx = x
+        self.rect.centery = y
+
+    def update(self):
+        # Desce lentamente pela tela
+        self.rect.y += 2
+
+        # Remove se sair da tela
+        if self.rect.top > ALTURA:
+            self.kill()
+
+
+# Classe do Boss
+class Boss(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.Surface((100, 100))
+        self.image.fill(VERMELHO)
+        self.rect = self.image.get_rect()
+        self.rect.centerx = LARGURA // 2
+        self.rect.top = 50
+        self.tempo_entre_ataques = 60  # Frames entre ataques
+        self.contador_ataque = 0
+
+        # Vida do boss
+        self.vida_maxima = 10  # 10 espaços de vida
+        self.vida_atual = self.vida_maxima
+
+    def update(self):
+        # Lógica de ataque do boss
+        self.contador_ataque += 1
+        if self.contador_ataque >= self.tempo_entre_ataques:
+            self.atacar()
+            self.contador_ataque = 0
+
+        # Verifica colisão com projéteis do jogador
+        colisoes = pygame.sprite.spritecollide(self, projeteis_jogador, True)
+        for _ in colisoes:
+            self.vida_atual -= 1
+            if self.vida_atual <= 0:
+                print("Boss derrotado!")
+                # Cria uma guitarra no local do boss
+                guitarra = Guitarra(self.rect.centerx, self.rect.centery)
+                todas_sprites.add(guitarra)
+                guitarras.add(guitarra)
+                self.kill()
+
+    def atacar(self):
+        # Cria nota musical em uma direção (para baixo)
+        nota = NotaMusical(self.rect.centerx, self.rect.bottom)
+        todas_sprites.add(nota)
+        notas_grupo.add(nota)
+
+    def desenhar_barra_vida(self, superficie):
+        # Configurações da barra de vida
+        largura_total = 200
+        altura_barra = 20
+        espacos = 10
+        largura_espaco = largura_total // espacos
+
+        # Posição da barra de vida
+        x = self.rect.centerx - largura_total // 2
+        y = self.rect.top - 30
+
+        # Desenha o fundo (contorno)
+        pygame.draw.rect(superficie, BRANCO, (x - 2, y - 2, largura_total + 4, altura_barra + 4), 2)
+
+        # Desenha os espaços da barra de vida
+        for i in range(espacos):
+            cor = VERDE if i < self.vida_atual else CINZA
+            pygame.draw.rect(superficie, cor, (x + i * largura_espaco, y, largura_espaco - 2, altura_barra))
+
+
+# Classe das Notas Musicais
+class NotaMusical(pygame.sprite.Sprite):
+    def __init__(self, x, y, direcao_cima=False):
+        super().__init__()
+        self.image = pygame.Surface((20, 10))
+        self.image.fill((random.randint(50, 200), random.randint(50, 200), random.randint(50, 200)))
+        self.rect = self.image.get_rect()
+        self.rect.centerx = x
+        self.rect.centery = y
+
+        # Define a direção do movimento
+        self.direcao_cima = direcao_cima
+        self.velocidade = 5
+
+    def update(self):
+        # Move a nota musical
+        if self.direcao_cima:
+            self.rect.y -= self.velocidade  # Para cima
+        else:
+            self.rect.y += self.velocidade  # Para baixo
+
+        # Remove a nota se sair da tela
+        if self.rect.top > ALTURA or self.rect.bottom < 0:
+            self.kill()
+
+
+# Classe de Projétil do Jogador
+class ProjetilJogador(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.Surface((5, 15))
+        self.image.fill(BRANCO)
+        self.rect = self.image.get_rect()
+        self.rect.centerx = x
+        self.rect.bottom = y
+        self.velocidade = 10
+
+    def update(self):
+        # Move o projétil para cima
+        self.rect.y -= self.velocidade
+
+        # Remove o projétil se sair da tela
+        if self.rect.bottom < 0:
+            self.kill()
+
+
+# Grupos de sprites
+todas_sprites = pygame.sprite.Group()
+notas_grupo = pygame.sprite.Group()
+projeteis_jogador = pygame.sprite.Group()
+notas_jogador = pygame.sprite.Group()
+guitarras = pygame.sprite.Group()
+
+# Criação dos personagens
+jogador = Jogador()
+boss = Boss()
+todas_sprites.add(jogador)
+todas_sprites.add(boss)
+
+# Configurações do jogo
+relogio = pygame.time.Clock()
+rodando = True
+
+# Loop principal do jogo
+while rodando:
+    # Tratamento de eventos
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            rodando = False
+
+    # Atualização
+    todas_sprites.update()
+
+    # Verifica colisão entre notas e jogador
+    colisoes = pygame.sprite.spritecollide(jogador, notas_grupo, True)
+    if colisoes:
+        print("Você foi atingido!")
+
+    # Verifica colisão com guitarras
+    colisoes_guitarra = pygame.sprite.spritecollide(jogador, guitarras, True)
+    for guitarra in colisoes_guitarra:
+        jogador.pegar_guitarra()
+
+    # Desenho
+    tela.fill(PRETO)
+    todas_sprites.draw(tela)
+
+    # Desenha a barra de vida do boss se ele existir
+    if boss in todas_sprites:
+        boss.desenhar_barra_vida(tela)
+
+    pygame.display.flip()
+
+    # Controle de FPS
+    relogio.tick(60)
+
+# Encerramento
+pygame.quit()
