@@ -1,53 +1,50 @@
 import pygame
-from pygame import image, Surface, Vector2
-from protagonista import Protagonista
-from camera import CameraJogo
+from src.fases.Fase1 import Fase1
 
 
-# Resoluções
-TAMANHO_TILE = 48
-ALTURA = 800
-LARGURA = 600
-ZOOM = 2
+TAMANHO = 800, 600
+FPS = 60
 
-# Inicia o bruto
-pygame.init()
-tela = pygame.display.set_mode((ALTURA, LARGURA),pygame.RESIZABLE)
-relogio = pygame.time.Clock()
+class Jogo():
+    def __init__(self):
+        pygame.init()
+        self.screen = pygame.display.set_mode(TAMANHO)
+        pygame.display.set_caption('Battle Music')
+        self.relogio = pygame.time.Clock()
+        self.screen.fill("purple")
+        
+        self.fase = Fase1()
+        
+
+    def processar_eventos(self):
+        eventos = pygame.event.get()
+
+        for evento in eventos:
+            if evento.type == pygame.QUIT:
+                return False
+
+            self.fase.processar_eventos(eventos)
+
+        return True
+        
+    def atualizar(self):
+        self.fase.atualizar()
+
+    def desenhar(self):
+        self.screen.fill("black")
+        self.fase.desenhar(self.screen)
+        pygame.display.flip()
+
+    def executar(self):
+        continuar = True
+        while continuar:
+            continuar = self.processar_eventos()
+            self.atualizar()
+            self.desenhar()
+            self.relogio.tick(FPS)
 
 
+        pygame.quit()
 
-#Fase
-altura_fase = ALTURA // ZOOM
-largura_fase = LARGURA // ZOOM
-fase = Surface((altura_fase, largura_fase), )
-fase.fill((0, 128, 255))
-
-
-#dados_jogador
-player = Protagonista("red" , altura_fase // 2, largura_fase // 2 , TAMANHO_TILE)
-
-camera = CameraJogo(player)
-
-rodando = True
-while rodando:
-    # Para sair do jogo
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            rodando = False
-
-        if event.type == pygame.KEYDOWN:
-            player.mover(event.key)
-
-
-    tela.fill("dark blue")
-    fase.fill("gray")
-
-    camera.atualizar()
-    player.desenhar(fase)
-    tela.blit(pygame.transform.scale(fase, (altura_fase * ZOOM, largura_fase * ZOOM) ), camera.movimentacao(Vector2(altura_fase//2, largura_fase//2)) * ZOOM)
-    
-    pygame.display.flip()
-    relogio.tick(60)  # Roda o relogio
-
-pygame.quit()
+jogo = Jogo()
+jogo.executar()
