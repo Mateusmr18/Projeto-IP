@@ -5,7 +5,7 @@ from pygame.math import Vector2
 
 
 class Protagonista(pygame.sprite.Sprite):
-    def __init__(self, imagem, posicao_inicial, velocidade ):
+    def __init__(self, imagem, posicao_inicial, velocidade, obj_vida):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((48, 48))
         self.image.fill("red")
@@ -19,6 +19,8 @@ class Protagonista(pygame.sprite.Sprite):
 
         self.esta_pulando = False
         self.contador_pulo = 10
+
+        self.vida = obj_vida
 
 
     def carregar_mapa(self, mapa):

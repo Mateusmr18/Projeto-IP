@@ -1,5 +1,6 @@
 import pygame
 from src.fases.Fase1 import Fase1
+from src.fases.Fase2 import Fase2
 
 
 TAMANHO = 800, 600
@@ -13,7 +14,7 @@ class Jogo():
         self.relogio = pygame.time.Clock()
         self.screen.fill("purple")
         
-        self.fase = Fase1(self.screen)
+        self.fase = Fase2(self.screen)
         
     def processar_eventos(self):
         eventos = pygame.event.get()
