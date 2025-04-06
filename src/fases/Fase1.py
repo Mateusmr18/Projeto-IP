@@ -2,45 +2,39 @@ import pygame
 from src.protagonista.protagonista import Protagonista
 from src.mapa.mapa import Mapa
 from src.fases.FaseBase import FaseBase
-from src.camera.camera import Camera
-from src.mobs.boss import BossKurt
 
 
 class Fase1(FaseBase):
-    def __init__(self):
+    def __init__(self, tela):
         super().__init__("Battle Mozart")
-        self.tamanho_tile = 48
+        self.tela = tela
+        self.grupo_sprites = pygame.sprite.Group()
+        
         self.carregar_elementos()
-    
 
     def carregar_elementos(self):
-        self.mapa = Mapa("assets/teste2.tmx")
-        centro_mapa = self.mapa.pegar_centro_mapa()
-
-        self.player = Protagonista("red" , centro_mapa)
-        self.player.carregar_mapa(self.mapa)
-
-        #self.boss = BossKurt(centro_mapa,self. tamanho_tile, 1)
-        self.camera = Camera(self.player)
-
-        self.sprites = pygame.sprite.Group()
-        #self.sprites.add(self.boss)
-        self.sprites.add(self.player)
+        self.mapa = Mapa("assets/mapa/Palco.jpeg")
+        x, y = self.mapa.pegar_tamanho_mapa()
+        
+        self.protagonista = Protagonista(" ", (x // 2, y * 0.95), 10)
+        self.protagonista.carregar_mapa(self.mapa)
+        self.grupo_sprites.add(self.protagonista)
 
     def processar_eventos(self, eventos):
-        for evento in eventos:
-            if evento.type == pygame.KEYDOWN:
-                self.player.mover(evento.key)
+        
+        teclas = pygame.key.get_pressed()
+        self.protagonista.mover(teclas)
 
     def atualizar(self):
-        self.camera.atualizar()
+        pass
 
     def desenhar(self, tela):
+        
+        tela.fill("black")
+        mapa = self.mapa.desenhar_mapa()
+        self.grupo_sprites.draw(mapa)
+        tela.blit(mapa, (0,0 ))
 
-        surface_mapa = self.mapa.desenhar_mapa()
-        self.sprites.draw(surface_mapa)
-
-        tela.blit(surface_mapa, self.camera.posicao_desenhar())
 
     def verifica_fim_fase(self):
         return False

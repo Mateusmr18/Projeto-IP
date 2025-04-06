@@ -13,17 +13,18 @@ class Jogo():
         self.relogio = pygame.time.Clock()
         self.screen.fill("purple")
         
-        self.fase = Fase1()
+        self.fase = Fase1(self.screen)
         
-
     def processar_eventos(self):
         eventos = pygame.event.get()
-
+    
         for evento in eventos:
             if evento.type == pygame.QUIT:
                 return False
 
-            self.fase.processar_eventos(eventos)
+        
+        self.fase.processar_eventos(eventos)
+
 
         return True
         

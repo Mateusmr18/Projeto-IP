@@ -5,43 +5,60 @@ from pygame.math import Vector2
 
 
 class Protagonista(pygame.sprite.Sprite):
-    def __init__(self, imagem, posicao_inicial, velocidade = 48):
+    def __init__(self, imagem, posicao_inicial, velocidade ):
         pygame.sprite.Sprite.__init__(self)
-
         self.image = pygame.Surface((48, 48))
         self.image.fill("red")
 
         self.rect = self.image.get_rect()
-        self.rect.topleft  = posicao_inicial
-
+        self.rect.bottomleft  = posicao_inicial
         
-        self.posicao = self.rect.topleft
+        self.posicao = posicao_inicial
+        
         self.velocidade = velocidade
+
+        self.esta_pulando = False
+        self.contador_pulo = 10
 
 
     def carregar_mapa(self, mapa):
         self.mapa = mapa
 
     def mover(self, entrada):
-        if entrada == pygame.K_LEFT: 
+        movimento = (0,0)
+        if entrada[pygame.K_LEFT]:
             movimento = (-self.velocidade, 0)
-        elif entrada == pygame.K_RIGHT: 
+        elif entrada[pygame.K_RIGHT]: 
             movimento = (+self.velocidade, 0)
-        elif entrada == pygame.K_UP: 
-            movimento = (0, -self.velocidade)
-        elif entrada == pygame.K_DOWN: 
-            movimento = (0, +self.velocidade)
+        
+        
+        
+        if entrada[pygame.K_UP] or self.esta_pulando:
+            movimento += Vector2(self.pular())
 
-
-        nova_posicao= Vector2(self.rect.topleft) + movimento
+        nova_posicao= Vector2(self.rect.bottomleft) + movimento
 
         if self.mapa.pode_andar(nova_posicao):
-            self.rect.topleft = nova_posicao
-    
-        print(self.rect.topleft)
+            self.rect.bottomleft = nova_posicao
 
-    def pegar_posicao(self):
-        return self.rect.topleft
     
+
+    def pular(self):
+
+        self.esta_pulando = True
+
+        y = 0
+
+        if self.contador_pulo >= -10:
+            y = (self.contador_pulo * abs(self.contador_pulo)) * 0.5
+            self.contador_pulo -=1
+        else:
+            self.contador_pulo = 10
+            self.esta_pulando = False
+
+
+        return (0, -y)
+
+
     
 
