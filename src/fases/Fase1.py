@@ -20,11 +20,11 @@ class Fase1(FaseBase):
         self.player = Protagonista("red" , centro_mapa)
         self.player.carregar_mapa(self.mapa)
 
-        self.boss = BossKurt(centro_mapa,self. tamanho_tile, 1)
+        #self.boss = BossKurt(centro_mapa,self. tamanho_tile, 1)
         self.camera = Camera(self.player)
 
         self.sprites = pygame.sprite.Group()
-        self.sprites.add(self.boss)
+        #self.sprites.add(self.boss)
         self.sprites.add(self.player)
 
     def processar_eventos(self, eventos):
