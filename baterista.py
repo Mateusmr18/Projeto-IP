@@ -35,10 +35,9 @@ class Jogador(pygame.sprite.Sprite):
         self.image = pygame.Surface((50, 50))
         self.image.fill(AZUL)
         self.rect = self.image.get_rect()
-        self.rect.centery = ALTURA // 2
-        self.rect.left = LARGURA - 10
+        self.rect.bottom = 470
+        self.rect.left = 30
         self.velocidade = 4
-        self.tem_bateria = False
 
         #'piscagem' do jogador ao receber dano
         self.piscar = False
@@ -62,7 +61,7 @@ class Jogador(pygame.sprite.Sprite):
             self.rect.x += self.velocidade
         if teclas[pygame.K_w] and self.rect.top > 0:
             self.rect.y -= self.velocidade
-        if teclas[pygame.K_s] and self.rect.bottom < ALTURA:
+        if teclas[pygame.K_s] and self.rect.bottom < 470:
             self.rect.y += self.velocidade
         if self.piscar:
             if tempo_atual - self.timer_piscar > self.tempo_piscar: #depois de 250ms, o personagem para de piscar
@@ -95,7 +94,8 @@ class Jogador(pygame.sprite.Sprite):
             pygame.draw.rect(superficie, cor, (x + i * largura_espaco, y, largura_espaco - 2, altura))
     
     def pegar_bateria(self):
-        self.tem_bateria = True
+        pygame.mixer.music.stop()
+        #efeito sonoro
 
 class BossBaterista(pygame.sprite.Sprite):
     def __init__(self):
@@ -255,6 +255,7 @@ retangulo_2 = Retangulo(219, 560, 30, 30, (VERDE))
 # Estados do jogo
 jogo_ativo = True
 jogo_encerrado = False
+jogo_vencido = False
 
 # Loop do jogo
 relogio = pygame.time.Clock()
@@ -292,13 +293,15 @@ while rodando:
     if jogo_ativo:
         sprites.update()
 
-        colisoes = pygame.sprite.spritecollide(jogador, ataques_baterista, True)
-        if colisoes:
-            jogador.receber_dano() #se oprojetil do boss acertar o jogador, ele recebe dano
+        # colisoes = pygame.sprite.spritecollide(jogador, ataques_baterista, True)
+        # if colisoes:
+        #     jogador.receber_dano() #se oprojetil do boss acertar o jogador, ele recebe dano
 
         colisoes_bateria = pygame.sprite.spritecollide(jogador, baterias, True)
         for bateria in colisoes_bateria:
             jogador.pegar_bateria()
+            jogo_vencido = True
+            jogo_ativo = False
 
         tela.blit(fundo, (0, 0))
         sprites.draw(tela)
@@ -310,12 +313,18 @@ while rodando:
 
         if chefe.alive():
             chefe.barra_vida(tela)
+        else:
+            retangulo_1.esconder()
+            retangulo_2.esconder()
         if jogador.alive():
             jogador.barra_vida(tela)
         else:
             jogo_ativo = False
             jogo_encerrado = True
             pygame.mixer.music.stop()
+    elif jogo_vencido:
+        tela.fill(PRETO)
+        pygame.display.flip()
 
     else: #quando o personagem perde toda sua vida, aparece uma tela de game over
         tela.blit(fundo, (0, 0))
