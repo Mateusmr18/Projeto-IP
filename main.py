@@ -1,8 +1,20 @@
 import pygame
+from src.fases.tela_start import Entrada
+from src.fases.seletor_fase import SeletorFase
 from src.fases.Fase1 import Fase1
 from src.fases.Fase2 import Fase2
+from src.fases.gerenciador_fases import GerenciadoFases
 
+gerenciador_fases = GerenciadoFases()
+gerenciador_fases.add_fases("intro", Entrada(gerenciador_fases))
+gerenciador_fases.add_fases("seletor", SeletorFase(gerenciador_fases))
+gerenciador_fases.add_fases("fase1", Fase1(gerenciador_fases))
+gerenciador_fases.add_fases("fase2", Fase2(gerenciador_fases))
+gerenciador_fases.add_fases("fase3", Fase1(gerenciador_fases))
 
+gerenciador_fases.change_fase("intro")
+
+\
 TAMANHO = 800, 600
 FPS = 60
 
@@ -14,7 +26,7 @@ class Jogo():
         self.relogio = pygame.time.Clock()
         self.screen.fill("purple")
         
-        self.fase = Fase2(self.screen)
+        self.fase = gerenciador_fases
         
     def processar_eventos(self):
         eventos = pygame.event.get()

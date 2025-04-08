@@ -8,13 +8,14 @@ from src.utilidades.contador_vida import ContadorVida
 class Fase1(FaseBase):
     def __init__(self, tela):
         super().__init__("Battle Mozart")
-        self.tela = tela
+        #self.tela = tela
         self.grupo_sprites = pygame.sprite.Group()
+        self.estado_jogo = "rodando"
         
         self.carregar_elementos()
 
     def carregar_elementos(self):
-        self.mapa = Mapa("assets/mapa/Palco.jpeg")
+        self.mapa = Mapa("assets/mapa/palcu_teatro_mozart.png")
         x, y = self.mapa.pegar_tamanho_mapa()
         
         self.contador_vida = ContadorVida(3, (x * 0.95, y* 0.95))
