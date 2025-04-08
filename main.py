@@ -14,7 +14,7 @@ gerenciador_fases.add_fases("fase3", Fase1(gerenciador_fases))
 
 gerenciador_fases.change_fase("intro")
 
-\
+
 TAMANHO = 800, 600
 FPS = 60
 

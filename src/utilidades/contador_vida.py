@@ -7,16 +7,14 @@ class ContadorVida(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.vidas = vidas
         self.image = pygame.Surface((48, 48))
-        self.image.fill("blue")
         self.rect = self.image.get_rect()
         self.rect.center = posicao
-        self.image_base = pygame.Surface((48, 48))
-        self.image_base.fill("blue")
+        self.image_base = pygame.Surface((48, 48), pygame.SRCALPHA)
         self.fonte = pygame.font.Font("./assets/fontes/MineMouseRegular.ttf", 40)
 
     
     def mostra_vida(self):
-        texto = self.fonte.render(f"{self.vidas}", True,(255, 255, 255))
+        texto = self.fonte.render(f"{self.vidas}", True,(50, 20, 20))
         copia_base =  self.image_base.copy()
         
         centro_numero = (Vector2(copia_base.get_size()) - Vector2(texto.get_size())) // 2
