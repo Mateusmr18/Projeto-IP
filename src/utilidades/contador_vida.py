@@ -21,9 +21,11 @@ class ContadorVida(pygame.sprite.Sprite):
         copia_base.blit(texto, centro_numero)
         self.image = copia_base
         
-    def tomar_dano(self):
+    def reduzir_vida(self, dano = 1):
         if self.vidas > 0:
-            self.vidas-=1
+            self.vidas-=dano
+
+        self.mostra_vida()
 
     def ta_vivo(self):
         if self.vidas > 0:

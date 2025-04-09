@@ -11,7 +11,7 @@ class Fase2(FaseBase):
         self.tela = tela
         self.grupo_sprites = pygame.sprite.Group()
         
-        self.carregar_elementos()
+        #self.carregar_elementos()
 
     def carregar_elementos(self):
         self.mapa = Mapa("assets/mapa/palco_slipquinoti.png")

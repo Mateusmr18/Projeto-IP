@@ -17,11 +17,11 @@ class DiscoMovimento:
         tela.blit(self.imagem, self.posicao)
 
 
-    def foi_acertado(self, tarjeto_y, diferenca = 30):
-        return abs(tarjeto_y - self.posicao.y) < diferenca
+    def foi_acertado(self, trajeto_y, diferenca = 30):
+        return abs(trajeto_y - self.posicao.y) < diferenca
     
     def get_position(self):
-        return self.posicao
+        return Vector2(self.posicao)
         
 
 
@@ -101,7 +101,7 @@ class GameRitmo:
     def tentar_acertar(self):
         self.alvo.ativar()
         for disco in self.discos:
-            if disco.foi_acertado(self.posicao.y, 20):
+            if disco.foi_acertado(self.posicao.y, 100):
                 self.discos.remove(disco)
                 return True
 

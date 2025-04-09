@@ -35,7 +35,6 @@ class Jogo():
             if evento.type == pygame.QUIT:
                 return False
 
-        
         self.fase.processar_eventos(eventos)
 
 
