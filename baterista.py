@@ -24,7 +24,7 @@ MARROM = (139, 69, 19)
 
 # Iniciar música
 pygame.mixer.init()
-musica = ""
+musica = "abu.mp3"
 pygame.mixer.music.load(musica)
 pygame.mixer.music.play()
 
@@ -32,17 +32,24 @@ pygame.mixer.music.play()
 class Jogador(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.Surface((50, 50))
-        self.image.fill(AZUL)
+        self.imagens = {
+            "pulando_esquerda": pygame.transform.scale(pygame.image.load("Pulando_Esquerda.png").convert_alpha(), (64, 64)),
+            "pulando_direita": pygame.transform.scale(pygame.image.load("Pulando_Direita1.png").convert_alpha(), (64, 64)),
+            "costas": pygame.transform.scale(pygame.image.load("Protagonista_Costas.png").convert_alpha(), (64, 64)),
+            "parado_direita": pygame.transform.scale(pygame.image.load("Parado_Direita.png").convert_alpha(), (64, 64)),
+            "andando_esquerda": pygame.transform.scale(pygame.image.load("Andando_Esquerda1.png").convert_alpha(), (64, 64)),
+            "andando_direita": pygame.transform.scale(pygame.image.load("Andando_Direita.png").convert_alpha(), (64, 64)),
+        }
+
+        self.image = self.imagens["parado_direita"]
         self.rect = self.image.get_rect()
         self.rect.bottom = 470
         self.rect.left = 30
         self.velocidade = 4
 
-        #'piscagem' do jogador ao receber dano
         self.piscar = False
         self.tempo_piscar = 250
-        self.timer_piscar = 0 #tempo da piscada
+        self.timer_piscar = 0
 
         self.vida_maxima = 20
         self.vida_atual = self.vida_maxima
@@ -55,25 +62,47 @@ class Jogador(pygame.sprite.Sprite):
     def update(self):
         teclas = pygame.key.get_pressed()
         tempo_atual = pygame.time.get_ticks()
-        if teclas[pygame.K_a] and self.rect.left > 0:
-            self.rect.x -= self.velocidade
-        if teclas[pygame.K_d] and self.rect.right < LARGURA:
-            self.rect.x += self.velocidade
-        if teclas[pygame.K_w] and self.rect.top > 0:
-            self.rect.y -= self.velocidade
-        if teclas[pygame.K_s] and self.rect.bottom < 470:
-            self.rect.y += self.velocidade
+        no_ar = self.rect.y < 386
+
+        if no_ar:
+            if teclas[pygame.K_a] and self.rect.left > 0:
+                self.image = self.imagens["pulando_esquerda"]
+                self.rect.x -= self.velocidade
+            if teclas[pygame.K_d] and self.rect.right < LARGURA:
+                self.image = self.imagens["pulando_direita"]
+                self.rect.x += self.velocidade
+            if teclas[pygame.K_w] and self.rect.top > 0:
+                self.image = self.imagens["pulando_direita"]
+                self.rect.y -= self.velocidade
+            if teclas[pygame.K_s] and self.rect.bottom < 470:
+                self.image = self.imagens["parado_direita"]
+                self.rect.y += self.velocidade
+        else:
+            if teclas[pygame.K_w] and self.rect.top > 0:
+                self.image = self.imagens["costas"]
+                self.rect.y -= self.velocidade
+            if teclas[pygame.K_s] and self.rect.bottom < 470:
+                self.image = self.imagens["parado_direita"]
+                self.rect.y += self.velocidade
+            if teclas[pygame.K_a] and self.rect.left > 0:
+                self.image = self.imagens["andando_esquerda"]
+                self.rect.x -= self.velocidade
+            if teclas[pygame.K_d] and self.rect.right < LARGURA:
+                self.image = self.imagens["andando_direita"]
+                self.rect.x += self.velocidade
+
         if self.piscar:
-            if tempo_atual - self.timer_piscar > self.tempo_piscar: #depois de 250ms, o personagem para de piscar
+            if tempo_atual - self.timer_piscar > self.tempo_piscar:
                 self.piscar = False
                 self.image.set_alpha(255)
-            else: #alterna entre exibir e apagar o personagem
+            else:
                 if (tempo_atual // 2) % 2 == 0:
                     self.image.set_alpha(0)
                 else:
                     self.image.set_alpha(255)
         else:
             self.image.set_alpha(255)
+
         if self.vida_atual <= 0:
             print("Você Morreu")
             self.kill()
@@ -87,15 +116,15 @@ class Jogador(pygame.sprite.Sprite):
         x = self.rect.centerx - largura // 2
         y = self.rect.top - 30
 
-        pygame.draw.rect(superficie, BRANCO, (x - 2, y - 2, largura + 4, altura + 4), 2) #contorno da barra de vida
+        pygame.draw.rect(superficie, BRANCO, (x - 2, y - 2, largura + 4, altura + 4), 2)
 
-        for i in range(espacos): #desenha e apagas os quadradinhos verdes que representam a vida
+        for i in range(espacos):
             cor = VERDE if i < self.vida_atual else CINZA
             pygame.draw.rect(superficie, cor, (x + i * largura_espaco, y, largura_espaco - 2, altura))
-    
+
     def pegar_bateria(self):
         pygame.mixer.music.stop()
-        #efeito sonoro
+
 
 class BossBaterista(pygame.sprite.Sprite):
     def __init__(self):
