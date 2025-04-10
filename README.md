@@ -12,6 +12,7 @@
 - Interface: 2D - Com visões superior e horizontal.
 - Jogabilidade: Movimentação varia entre lateral e livre conforme as fases.
 - Fases: São 3 fases com chefes e mecânicas individuais:
+- 
 Fase 1 (Pianista) - Movimentação lateral com mecânica de pulo, o objetivo e desviar dos projéteis lançados horizontalmente pelo pianista;
 
 Fase 2 (Guitarrista) - Movimentação lateral, o objetivo é desviar dos projéteis lançados verticalmente pelo chefe, o personagem tem uma área especifica para acertar o chefe;
