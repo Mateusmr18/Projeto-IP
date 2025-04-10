@@ -11,7 +11,7 @@
 
 
 ## Capturas de Tela:
-![Imagem 1](prints/selecao_fases) 
+![Imagem 1](prints/selecao_fases.jpg) 
 
 
 
