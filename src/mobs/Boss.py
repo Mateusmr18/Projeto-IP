@@ -1,7 +1,7 @@
-
 import pygame
 from pygame import  draw
 from pygame.math import Vector2
+import random
 
 class BossBase(pygame.sprite.Sprite):
     def __init__(self, nome , img_manager, posicao_inicial, vida, mob_manager, player):
@@ -115,9 +115,10 @@ class Boss2(BossBase):
         #    self.mob_manager.shoot("dancante", self.nome,  self.pega_posicao(), None, 1 , 1,  chegada = self.player.get_posicao() )
         #    self.frames = 0
 
-        if self.frames > 120:
+        if self.frames > 150:
             self.frames = 0
             self.mob_manager.shoot("batidao", self.nome,  None, None, 1 , 1, )
+                
         
 
         
@@ -144,6 +145,15 @@ class Boss3(BossBase2):
         #    self.mob_manager.shoot("dancante", self.nome,  self.pega_posicao(), None, 1 , 1,  chegada = self.player.get_posicao() )
         #    self.frames = 0
 
-        if self.frames > 15:
-            self.frames=0
-            self.mob_manager.shoot("batidao", self.nome,  None, None, 1 , 1, )
+        #if self.frames > 15:
+        #    self.frames=0
+        #    self.mob_manager.shoot("batidao", self.nome,  None, None, 1 , 1, )
+
+        
+        if self.frames > 60*4:
+            numero_balas = 15
+            self.frames = 0
+            for i in range(numero_balas):
+                vetor_velocidade = Vector2(4,0).rotate((360 / numero_balas) * i)
+                print(vetor_velocidade)
+                self.mob_manager.shoot("normal", self.nome, self.pega_posicao(), vetor_velocidade, 1 , 1)

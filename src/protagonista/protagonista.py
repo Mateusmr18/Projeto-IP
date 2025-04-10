@@ -190,7 +190,6 @@ class Protagonista2(pygame.sprite.Sprite):
         self.mob_manager.shoot("normal", self.nome , self.rect.center, movimento_tiro, 10, 1)
     
     def get_hit(self, dano):
-        print(dano)
         self.vida.reduzir_vida(dano)
 
     def get_posicao(self):

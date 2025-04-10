@@ -24,7 +24,7 @@ class ContadorVida(pygame.sprite.Sprite):
         
     def reduzir_vida(self, dano = 1):
         if self.vidas > 0:
-            self.vidas-=0
+            self.vidas-=dano
 
         self.mostra_vida()
 

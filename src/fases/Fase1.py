@@ -97,6 +97,10 @@ class Fase1(FaseBase):
         self.ritmo.update()
         self.contador_vida.mostra_vida()
 
+
+        if not self.contador_vida.ta_vivo():
+            self.gerenciador.change_fase("seletor")
+
         if self.verifica_fim_fase():
             self.comecar_fim_fase()
 

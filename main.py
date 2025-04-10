@@ -19,6 +19,7 @@ gerenciador_fases.change_fase("intro")
 TAMANHO = 800, 600
 FPS = 60
 
+
 class Jogo:
     def __init__(self):
         pygame.init()
@@ -43,7 +44,7 @@ class Jogo:
     def atualizar(self):
         self.fase.atualizar()
 
-    def desenhar(self):
+    def desenhar(self):  
         self.screen.fill("black")
         self.fase.desenhar(self.screen)
         pygame.display.flip()       

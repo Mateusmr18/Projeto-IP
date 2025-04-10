@@ -30,6 +30,7 @@ class SeletorFase(FaseBase):
 
     
     def carregar_elementos(self):
+        self.musica.stop_music()
 
         animacao_som = Animation(None, None, None, [image.load(Assets.rota(f"objetos/caixa_som/sonzao{i}.png")) for i in range(1, 4)], 20)
         self.imagems.add_animation("caixa_som", animacao_som)
