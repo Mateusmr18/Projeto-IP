@@ -1,0 +1,49 @@
+{
+    "protagonista": {
+        "parado": {
+            "prefixo":"protagonista/Parado_Direita",
+            "quantidade_frames": 1
+        },
+        "andar": {
+            "prefixo":"protagonista/Andando_Direita",
+            "quantidade_frames": 2
+        },
+        "pular": {
+            "prefixo":"protagonista/Pulando_Direita",
+            "quantidade_frames": 1
+        },
+        "costas": {
+            "prefixo": "protagonista/Protagonista_Costas",
+            "quantidade_frames": 1
+        },
+
+        "bater": {
+            "prefixo": "protagonista/Atirando_Direita",
+            "quantidade_frames": 1
+        }
+    },
+
+    "pianista": {
+        "lutando": {
+            "prefixo": "bosses/pianista/Pianista_",
+            "quantidade_frames" : 2
+        }
+    },
+    
+    "baterista": {
+        "lutando": {
+            "prefixo": "bosses/baterista/Baterista_",
+            "quantidade_frames" : 3
+        }
+    },
+
+
+    "guitarrista": {
+        "lutando": {
+            "prefixo": "bosses/guitarrista/Guitarrista_",
+            "quantidade_frames" : 2
+        }
+    }
+
+
+}

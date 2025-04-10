@@ -22,7 +22,6 @@ class Projetil(pygame.sprite.Sprite):
     def get_dano(self):
         return self.dano
     
-
     def get_dono(self):
         return self.dono
     
@@ -117,9 +116,9 @@ class NotaDivide(pygame.sprite.Sprite):
     def get_dano(self):
         return self.dano
     
-
     def get_dono(self):
         return self.dono
+
     
     def saiu_tela(self):
         x, y = Vector2(self.rect.center)
@@ -131,6 +130,51 @@ class NotaDivide(pygame.sprite.Sprite):
         return False
 
 
+class Batidao(pygame.sprite.Sprite):
+    def __init__(self, dono, velocidade_crescimento = 1, dano = 1):
+        super().__init__()
+        self.dono = dono
+        self.tamanho = 1
+        self.tamanho_maximo = 60
+        self.image = Surface((1, 1))
+        self.posicao = (random.uniform(20, 780), random.uniform(300, 600))
+        self.rect = self.image.get_rect(center = self.posicao)
+        self.velocidade_crescer = velocidade_crescimento * 60
+        self.dano = dano
+        self.frames = 0
+
+
+    def update(self):
+        tela_nova = Surface((self.tamanho+2, self.tamanho+2), pygame.SRCALPHA)
+        pygame.draw.circle(tela_nova, "yellow", (Vector2(tela_nova.get_size()) / 2), self.tamanho / 2, 2)
+
+        self.image = tela_nova
+        self.rect = self.image.get_rect(center = self.posicao)
+        
+        if self.frames > 3:
+            self.frames = 0
+            self.tamanho+=1
+
+        self.frames+=1
 
         
+    def get_dano(self):
+        return self.dano
+    
+    def get_dono(self):
+        return self.dono
+    
+    def saiu_tela(self):
+        if self.tamanho > self.tamanho_maximo:
+            return True
+        return False
+
+    def get_dano(self):
+        return self.dano
+    
+    def get_dono(self):
+        return self.dono
+
+
+
 

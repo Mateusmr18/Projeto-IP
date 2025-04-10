@@ -18,10 +18,9 @@ class Mapa():
         return self.mapa_jogo.copy()
 
     def pode_andar(self, nova_posicao):
-        
-        tamanho_x, _ = self.pegar_tamanho_mapa()
-
-        if (nova_posicao.x >= 0 and nova_posicao.x < tamanho_x ):
+        tamanho_x, tamanho_y = self.pegar_tamanho_mapa()
+        if (nova_posicao.x >= 0 and nova_posicao.x < tamanho_x and nova_posicao.y >= 0 and nova_posicao.y < tamanho_y):
+            
             return True
         return False
             

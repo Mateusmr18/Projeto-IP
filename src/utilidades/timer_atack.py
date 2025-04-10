@@ -1,5 +1,6 @@
 from pygame import Vector2, image
 import time
+from assets import Assets
 
 class DiscoMovimento:
     def __init__(self, imagem , posicao, velocidade = 5):
@@ -72,8 +73,8 @@ class GameRitmo:
     def __init__(self, posicao, bpm):
         self.discos = []
         self.posicao = Vector2(posicao)
-        self.alvo = DiscoFixo(image.load('assets/barra_ritmo/disco_vida.png'), posicao)
-        self.imagem_disco_movimento = image.load(('assets/barra_ritmo/disco_desce.png'))
+        self.alvo = DiscoFixo(image.load(Assets.rota('barra_ritmo/disco_vida.png')), posicao)
+        self.imagem_disco_movimento = image.load(Assets.rota('barra_ritmo/disco_desce.png'))
         self.ritmo = Ritmo(bpm)
 
     def update(self):

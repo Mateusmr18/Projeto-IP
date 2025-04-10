@@ -15,15 +15,14 @@ from assets import Assets
 from src.utilidades.animacao import Animation2
 from src.protagonista.progresso import progresso
 
-
-class Fase1(FaseBase):
+class Fase3(FaseBase):
     def __init__(self, gerenciador):
         super().__init__("Battle Bethooven")
         self.gerenciador = gerenciador
         self.grupo_sprites = pygame.sprite.Group()
         self.mob_manager = MobManager()
         self.ritmo = GameRitmo(Vector2(800 * 0.95, 600 * 0.95), 120)
-        self.animacao_fim = AnimacaoFimFase(60*4, image.load(Assets.rota("finais/piano_fim.png")))
+        self.animacao_fim = AnimacaoFimFase(60*4, image.load(Assets.rota("finais/guitarra_fim.png")))
         self.musica = toca_musica
         self.image_handler = ImageHandler2()
         self.json = CarregadorJSON()
@@ -31,9 +30,8 @@ class Fase1(FaseBase):
 
     def carregar_elementos(self):
         self.mob_manager.clean()
-        
         #Mapa
-        self.mapa = Mapa(Assets.rota("mapa/palcu_teatro_mozart.png")) #Mapa
+        self.mapa = Mapa(Assets.rota("mapa/slipknot_reduzido.png")) #Mapa
 
         # Animacoes protagonista
         imgs_protagonista_pegas = (self.json.carregar_frames("animacao.json", "protagonista", 0.1))
@@ -43,22 +41,20 @@ class Fase1(FaseBase):
         #vida Protagonista
         self.contador_vida = ContadorVida(3, (800 * 0.95, 600 * 0.95))
         # Protagonista
-        self.protagonista = Protagonista2("protagonista", self.image_handler, (400, 600), self.contador_vida, self.mob_manager)
+        self.protagonista = Protagonista2("protagonista", self.image_handler, (500, 500), self.contador_vida, self.mob_manager)
         
         # mapa pro protagonista
         self.protagonista.carregar_mapa(self.mapa)
 
-
-        frames_boss = self.json.carregar_frames("animacao.json", "pianista", 2.5)
+        frames_boss = self.json.carregar_frames("animacao.json", "guitarrista", 0.5)
         animacao_boss = Animation2(frames_boss, "lutando", 5)
-        self.image_handler.add_animation("pianista", animacao_boss)
+        self.image_handler.add_animation("guitarrista", animacao_boss)
 
 
         # Começo Boss
-        boss = Boss1("pianista", self.image_handler , Vector2(150, 500), 1, self.mob_manager, self.protagonista)
+        boss = Boss3("guitarrista", self.image_handler , Vector2(400, 300), 1, self.mob_manager, self.protagonista)
 
 
-        #self.mob_manager.add_mob(self.protagonista)
         self.mob_manager.add_mob(boss)
         self.mob_manager.add_mob(self.protagonista)
 
@@ -67,7 +63,8 @@ class Fase1(FaseBase):
         self.grupo_sprites.add(self.contador_vida)
 
         self.musica.stop_music()
-        self.musica.play_music("beto")
+        self.musica.play_music("kurt")
+
 
     def processar_eventos(self, eventos):
         
@@ -97,6 +94,8 @@ class Fase1(FaseBase):
         self.ritmo.update()
         self.contador_vida.mostra_vida()
 
+
+        # Fim de Fase
         if self.verifica_fim_fase():
             self.comecar_fim_fase()
 
@@ -114,6 +113,7 @@ class Fase1(FaseBase):
         self.mob_manager.draw(mapa) #Boss
         self.ritmo.draw(mapa) # Discos
         self.grupo_sprites.draw(mapa) #Coracao
+
         tela.blit(mapa,(0,0))
 
     def verifica_fim_fase(self):
@@ -127,10 +127,7 @@ class Fase1(FaseBase):
         return False
 
     def comecar_fim_fase(self):
-        progresso.add_conquista("piano")
+        progresso.add_conquista("guitarra")
         self.animacao_fim.iniciar()
-    
-
-
     
 

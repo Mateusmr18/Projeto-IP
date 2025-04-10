@@ -1,16 +1,17 @@
 import pygame
 from pygame import font
 from pygame import Vector2
+from assets import Assets
 
 class ContadorVida(pygame.sprite.Sprite):
     def __init__(self, vidas, posicao):
-        pygame.sprite.Sprite.__init__(self)
+        super().__init__()
         self.vidas = vidas
         self.image = pygame.Surface((48, 48))
         self.rect = self.image.get_rect()
         self.rect.center = posicao
         self.image_base = pygame.Surface((48, 48), pygame.SRCALPHA)
-        self.fonte = pygame.font.Font("./assets/fontes/MineMouseRegular.ttf", 40)
+        self.fonte = pygame.font.Font(Assets.rota("fontes/MineMouseRegular.ttf"), 40)
 
     
     def mostra_vida(self):
@@ -23,7 +24,7 @@ class ContadorVida(pygame.sprite.Sprite):
         
     def reduzir_vida(self, dano = 1):
         if self.vidas > 0:
-            self.vidas-=dano
+            self.vidas-=0
 
         self.mostra_vida()
 

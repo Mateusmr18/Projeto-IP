@@ -1,4 +1,5 @@
 from pygame import mixer
+from assets import Assets
 
 mixer.init() # inicia o mixer do pygame
 
@@ -37,11 +38,12 @@ class MusicManager():
 
     
     def set_volume(self, altura):
-        pass
+        mixer.music.stop()
 
 
 
 toca_musica = MusicManager()
-toca_musica.add_music("beto", 'assets/musicas/beethoven_nightmare.mp3')
-toca_musica.add_music("intro", "assets/musicas/intro.mp3")
-toca_musica.add_music("kurt", "assets/musicas/nirvana_teen.mp3")
+toca_musica.add_music("beto", Assets.rota('musicas/beethoven_nightmare.mp3'))
+toca_musica.add_music("intro", Assets.rota("musicas/intro.mp3"))
+toca_musica.add_music("kurt", Assets.rota("musicas/nirvana_teen.mp3"))
+toca_musica.add_music("ganhou", Assets.rota("musicas/ganhou.mp3"))

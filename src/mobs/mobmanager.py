@@ -1,5 +1,5 @@
 import pygame
-from  src.mobs.Projetil import Projetil, NotaVibra, NotaDivide, LittleShots
+from  src.mobs.Projetil import Projetil, NotaVibra, NotaDivide, LittleShots, Batidao
 
 
 class MobManager:
@@ -19,6 +19,8 @@ class MobManager:
             mobs_levaram = pygame.sprite.spritecollide(projetil, self.mobs, False) # Oh False é para tipo não dar hitkill
             for mob in mobs_levaram:
                 if projetil.get_dono() != mob.get_nome():
+                    print(mob)
+                    print(mob.get_hit(0))
                     mob.get_hit(projetil.get_dano())
                     projetil.kill()
         
@@ -44,13 +46,24 @@ class MobManager:
         if tipo == "pequenina":
             projetil = LittleShots(dono, posicao, vetor_direcao, velocidade, dano)
 
-            
+        
+        if tipo == "batidao":
+            projetil = Batidao(dono, dano = 1)
         if projetil != None:
             self.projeteis.add(projetil)
-            print(self.projeteis)
+            #print(self.projeteis)
 
 
 
     def draw(self, tela):
         self.projeteis.draw(tela)
         self.mobs.draw(tela)
+
+
+    def get_mobs(self):
+        return self.mobs
+
+
+    def clean(self):
+        for mob in self.mobs:
+            mob.kill()

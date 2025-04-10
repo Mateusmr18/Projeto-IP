@@ -50,7 +50,10 @@ class ImageHandler:
     def change_state(self, name, state):
         if name in self.animations:
             self.animations[name].change_state(state)
-    
+
+    def get_frame(self, name):
+            return self.animations[name].get_frame()
+
     def draw(self, surface, name, position):
         if name in self.animations:
             self.animations[name].draw(surface, position)
@@ -59,4 +62,68 @@ class ImageHandler:
 
 
 
+
+import pygame
+
+class Animation2:
+    def __init__(self, animacoes, tipo_animacao, numbers_frame = 5):
+        self.animacoes = animacoes
+        self.frame_atual = 0 # contador
+        self.animation_atual = tipo_animacao # animação atual
+        self.frames_atualizacao = numbers_frame # atualiza frame
+        self.contador_frames = 0 # numero passado
+
+        print("\n\n")
+        print(self.animacoes)
+
+
+    def update(self):
+
+        self.contador_frames+=1
+        if self.contador_frames > self.frames_atualizacao:
+            self.contador_frames = 0
+            self.frame_atual = (self.frame_atual + 1 ) % len(self.animacoes[self.animation_atual])
+
+
+    def get_frame(self):
+        
+        return self.animacoes[self.animation_atual][self.frame_atual]
+
     
+
+    def change_state(self, state):
+        if state != self.animation_atual:
+            if state in self.animacoes.keys():
+                print(self.animation_atual, self.frame_atual)
+                self.frame_atual = 0
+                self.animation_atual = state
+    
+
+    def draw(self, screen, position):
+        nova_posicao = self.animacoes[self.animation_atual][self.frame_atual].get_rect(center = position)
+        screen.blit(self.animacoes[self.animation_atual][self.frame_atual], nova_posicao)
+
+
+
+
+class ImageHandler2:
+    def __init__(self):
+        self.animations = {}
+    
+    def add_animation(self, name, animation):
+        self.animations[name] = animation
+    
+    def update(self, name):
+        if name in self.animations:
+            self.animations[name].update() 
+    
+    def change_state(self, name, state):
+        if name in self.animations:
+            self.animations[name].change_state(state)
+
+    def get_frame(self, name):
+            return self.animations[name].get_frame()
+
+    def draw(self, surface, name, position):
+        if name in self.animations:
+            self.animations[name].draw(surface, position)

@@ -1,0 +1,9 @@
+{
+    "nome": "beethoven",
+    "fundo":"teste",
+    "inimigos": {
+        "tipo": "boss_bethoven",
+        "posicao": {"x": 400, "y": 300},
+        "vida": 10
+    }
+}

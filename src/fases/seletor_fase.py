@@ -12,6 +12,8 @@ from pygame import Vector2, image
 import pygame
 from src.utilidades.som import toca_musica
 
+from assets import  Assets
+
 class SeletorFase(FaseBase):
     def __init__(self, gerenciador):
         super().__init__("seletor")
@@ -25,27 +27,25 @@ class SeletorFase(FaseBase):
         self.musica = toca_musica
 
 
-        self.carregar_elementos()
-
 
     
     def carregar_elementos(self):
 
-        animacao_som = Animation(None, None, None, [image.load(f"assets/objetos/caixa_som/sonzao{i}.png") for i in range(1, 4)], 20)
+        animacao_som = Animation(None, None, None, [image.load(Assets.rota(f"objetos/caixa_som/sonzao{i}.png")) for i in range(1, 4)], 20)
         self.imagems.add_animation("caixa_som", animacao_som)
 
        
 
-        self.cenario.append(ObjetoCenario('mesa', image.load("assets/objetos/mesa/mesa.png")))
+        self.cenario.append(ObjetoCenario('mesa', image.load(Assets.rota("objetos/mesa/mesa.png"))))
         self.cenario.append(ObjetoCenarioAnimado( self.imagems, "caixa_som",(850, 300)))
         
         tamanho_monitor = Vector2(800, 600)
         self.botoes = [
            
-            BotaoSeletorFase("./assets/cds/cd_kurt.png",(tamanho_monitor.x * 0.3, tamanho_monitor.y * 0.7), "kurt" ,"fase3"),
-            BotaoSeletorFase("./assets/cds/cd_slipknott.png",(tamanho_monitor.x * 0.3, tamanho_monitor.y * 0.8), "kurt","fase1"),
-            BotaoSeletorFase("./assets/cds/cd_beto.png",(tamanho_monitor.x * 0.3, tamanho_monitor.y * 0.9), "beto", "fase1"),
-            BarraConquistas("./assets/objetos/barra_conquista/barra_conquista.png",(tamanho_monitor.x * 0.5, tamanho_monitor.y * 1.05), "", "")
+            BotaoSeletorFase(Assets.rota("cds/cd_kurt.png"),(tamanho_monitor.x * 0.3, tamanho_monitor.y * 0.7), "kurt" ,"fase3"),
+            BotaoSeletorFase(Assets.rota("cds/cd_slipknott.png"),(tamanho_monitor.x * 0.3, tamanho_monitor.y * 0.8), "kurt","fase2"),
+            BotaoSeletorFase(Assets.rota("cds/cd_beto.png"),(tamanho_monitor.x * 0.3, tamanho_monitor.y * 0.9), "beto", "fase1"),
+            BarraConquistas(Assets.rota("objetos/barra_conquista/barra_conquista.png"),(tamanho_monitor.x * 0.5, tamanho_monitor.y * 1.05), "", "")
         ]
 
 
@@ -56,6 +56,10 @@ class SeletorFase(FaseBase):
                 return False
             
             if evento.type == pygame.KEYDOWN:
+
+                if evento.key == pygame.K_ESCAPE:
+
+                    self.gerenciador.change_fase("intro")
                 if evento.key == pygame.K_UP:
                     self.hover = (self.hover - 1) % len(self.botoes)
                 

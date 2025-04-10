@@ -2,19 +2,20 @@ from pygame import Vector2, image
 from src.utilidades.botao_seletor_fase import BotaoSeletorFase
 from src.protagonista.progresso import progresso
 
+from assets import Assets
+
 class BarraConquistas(BotaoSeletorFase):
     def __init__(self, end_imagem , posicao, pega_musica, resposta_pressionado):
 
         super().__init__(end_imagem, posicao, "", "")
         self.conquistas = progresso
         self.icones = {
-            "guitarra": image.load("assets/objetos/barra_conquista/icone_guitarra.png"),
-            "bateria": image.load("assets/objetos/barra_conquista/icone_baqueta.png"),
-            "piano": image.load("assets/objetos/barra_conquista/icone_piano.png")
+            "guitarra": image.load(Assets.rota("objetos/barra_conquista/icone_guitarra.png")),
+            "bateria": image.load(Assets.rota("objetos/barra_conquista/icone_baqueta.png")),
+            "piano": image.load(Assets.rota("objetos/barra_conquista/icone_piano.png"))
         }
 
     def desenhar(self, tela, selecionado = False):
-        
         conquistas = self.conquistas.get_conquistas()
 
         lugar = self.posicao

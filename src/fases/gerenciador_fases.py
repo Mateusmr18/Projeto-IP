@@ -9,6 +9,7 @@ class GerenciadoFases:
     def change_fase(self, nome):
         if nome in self.fases:
             self.fase_atual = self.fases[nome]
+            self.fase_atual.carregar_elementos()
 
     def desenhar(self, screen):
         self.fase_atual.desenhar(screen)

@@ -5,6 +5,9 @@ from src.fases.FaseBase import FaseBase
 from src.utilidades.menu_botao import MenuBotao
 
 from src.fases.seletor_fase import SeletorFase
+
+from assets import Assets
+
 pygame.font.init()
 pygame.mixer.init()
 
@@ -12,12 +15,12 @@ class Entrada(FaseBase):
     def __init__(self, gerenciador):
         super().__init__("Entrada")
         self.gerenciador = gerenciador
-        self.vinil = image.load("./assets/start/vinil_maior.png")
-        self.logo = image.load("./assets/start/logo2.png")
+        self.vinil = image.load(Assets.rota("start/vinil_m.png"))
+        self.logo = image.load(Assets.rota("start/logo2.png"))
         self.angulo_rotacao_vinil = 0
         self.contador_pulsar = 0
         self.mixer = mixer.music
-        self.fonte = font.Font("./assets/fontes/MineMouseRegular.ttf", 40)
+        self.fonte = font.Font(Assets.rota("fontes/MineMouseRegular.ttf"), 40)
         self.hover = 0
 
         self.estado_jogo = "escolhendo fase"
@@ -27,7 +30,7 @@ class Entrada(FaseBase):
 
     
     def carregar_elementos(self):
-        self.mixer.load("./assets/musicas/intro.mp3")
+        self.mixer.load(Assets.rota("musicas/intro.mp3"))
         self.mixer.play(10, 0.0, 0)
 
         self.botoes = [
@@ -38,7 +41,7 @@ class Entrada(FaseBase):
     def processar_eventos(self, eventos):
 
         for evento in eventos:
-            print(evento)
+           # print(evento)
             if evento.type == pygame.QUIT:
                 return False
             
