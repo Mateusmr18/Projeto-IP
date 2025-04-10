@@ -16,6 +16,7 @@
 
 ## Bibliotecas e Ferramentas Utilizadas:
 Biblioteca PyGame
+
 Biblioteca random - Utilizada em situações como na aleatoriedade do tempo entre cada ataque do boss baterista e na aleatoriedade da ordem das imagens dos projetéis.
 
 WhatsApp e Discord - Meios de comunicação
