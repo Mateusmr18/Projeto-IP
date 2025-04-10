@@ -4,7 +4,7 @@
 - Eduardo Gabriel de Souza Pedroza (egsp@cin.ufpe.br)
 - Jadson José da Silva Lins (jjsl2@cin.ufpe.br)
 - Mateus Rafael Correia de Melo (mrcm@cin.ufpe.br)
-- Rodrigo Pereira Ferreira (leal@cin.ufpe.br)
+- Rodrigo Pereira Ferreira (rpf2@cin.ufpe.br)
 - Ryann Andre Dias da Silva (rads@cin.ufpe.br)
 
 ## Descrição da Arquitetura do Projeto:
