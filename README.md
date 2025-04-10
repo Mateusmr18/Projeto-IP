@@ -12,6 +12,8 @@
 
 ## Capturas de Tela:
 ![Imagem 1](prints/selecao_fases.jpg) 
+![Imagem 2](prints/fase_kurt.jpg)
+![Imagem 3](prints/tela_guitarra.jpg)
 
 
 
