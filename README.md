@@ -17,7 +17,7 @@ Fase 1 (Pianista) - Movimentação lateral com mecânica de pulo, o objetivo é 
 
 Fase 2 (Guitarrista) - Movimentação lateral, o objetivo é desviar dos projéteis lançados verticalmente pelo chefe, o personagem tem uma área especifica para acertar o chefe;
 
-Fase 3 (Baterista) - Movimentação livre, o objetivo é desviar dos projéteis teleguiados lançados pelo chefe, o chefe receberá dano toda vez que o personagem acertar o timing da música, caso erre, quem receberá o dano é o personagem.
+Fase 3 (Baterista) - Ataque do baterista se trata de projetéis que se expandem de forma aleatória pelo cenário, sendo o objetivo do jogador desviar desses ataques.
 
 - Itens: Ao derrotar cada um dos chefes você receberá o instrumento usado por ele.
 - Condição de vitória: Obter todos os instrumentos de cada chefe.
