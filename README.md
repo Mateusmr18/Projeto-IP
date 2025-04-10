@@ -8,6 +8,18 @@
 - Ryann Andre Dias da Silva (rads@cin.ufpe.br)
 
 ## Descrição da Arquitetura do Projeto:
+# Ideia geral:
+- Interface: 2D - Com visões superior e horizontal.
+- Jogabilidade: Movimentação varia entre lateral e livre conforme as fases.
+- Fases: São 3 fases com chefes e mecânicas individuais:
+Fase 1 (Pianista) - Movimentação lateral com mecânica de pulo, o objetivo e desviar dos projéteis lançados horizontalmente pelo pianista;
+Fase 2 (Guitarrista) - Movimentação lateral, o objetivo é desviar dos projéteis lançados verticalmente pelo chefe, o personagem tem uma área especifica para acertar o chefe;
+Fase 3 (Baterista) - Movimentação livre, o objetivo é desviar dos projetéis teleguiados lançados pelo chefe, o chefe receberá dano toda vez que o personagem acertar o timing da música, caso erre, quem receberá o dano é o personagem.
+- Itens: Ao derrotar cada um dos chefes você receberá o instrumento usado por ele.
+- Condição de vitória: Obter todos os indtrumentos de cada um dos chefes.
+- Condição de derrota: Caso o protagonista recebe muito dano do chefe, ocorrerá um game over na fase em que estiver.
+- Interação com objetos:
+Ao derrotar um chefe ele dropará o instrumento que quando coletado ficará salvo no menu de seleção de fase.
 
 
 ## Capturas de Tela:
@@ -36,7 +48,7 @@ Piskel, LibreSprites, PhotoShop - Criação das pixel arts para as sprites
 Além disso, a equipe se uniu em diferentes momentos para debater e apresentar soluções em conjunto.
 
 ## Conceitos da disciplina utilizados:
-- Foram utilizados diversos conceitos essenciais, destacando estruturas condicionais, laços de repetição e listas. Além disso o código inteiro apresenta o uso de Programação Orientada a Objetos, com diferentes classes reutilizáveis.
+- Foram utilizados diversos conceitos essenciais, destacando estruturas condicionais, laços de repetição e lprints/selecao_fases.jpgistas. Além disso o código inteiro apresenta o uso de Programação Orientada a Objetos, com diferentes classes reutilizáveis.
 
 ## Desafios e Erros Enfrentados e Lições Aprendidas no Decorrer do Projeto:
 Provavelmente o maior erro que cometemos foi a organização/comunicação precária, o que dificultou a unificação entre as funções dos membros do grupo. Tentamos resolver esse erro com reuniões, pessoalmente ou por call.
