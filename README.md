@@ -20,7 +20,7 @@ Fase 2 (Guitarrista) - Movimentação lateral, o objetivo é desviar dos projét
 Fase 3 (Baterista) - Movimentação livre, o objetivo é desviar dos projéteis teleguiados lançados pelo chefe, o chefe receberá dano toda vez que o personagem acertar o timing da música, caso erre, quem receberá o dano é o personagem.
 
 - Itens: Ao derrotar cada um dos chefes você receberá o instrumento usado por ele.
-- Condição de vitória: Obter todos os indtrumentos de cada um dos chefes.
+- Condição de vitória: Obter todos os instrumentos de cada chefe.
 - Condição de derrota: Caso o protagonista recebe muito dano do chefe, ocorrerá um game over na fase em que estiver.
 - Interação com objetos:
 Ao derrotar um chefe ele dropará o instrumento que quando coletado ficará salvo no menu de seleção de fase.
@@ -43,7 +43,7 @@ Piskel, LibreSprites, PhotoShop - Criação das pixel arts para as sprites
 
 
 ## Divisão de Trabalho:
-- Cairo Henrique:
+- Cairo Henrique: Programação do protagonista, menu de seleção de fase e integração do timing do ritmo
 - Eduardo Pedroza: Programação do Boss 3 (baterista)
 - Jadson Lins: Design/criação das artes do personagem, bosses e ataques
 - Mateus Rafael: Programação do Boss 1 (pianista)
